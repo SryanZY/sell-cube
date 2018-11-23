@@ -1,5 +1,5 @@
 <template>
-  <div class="header">
+  <div class="header" @click="showDetail">
     <div class="content-wrapper">
       <div class="avatar">
         <img width="64" height="64" :src="seller.avatar">
@@ -47,6 +47,17 @@ export default {
   },
   data () {
     return {}
+  },
+  methods: {
+    // 使用cube-ui的createAPI方法挂载在body下从而不受父元素的影响
+    showDetail () {
+      this.headerDetailComp = this.headerDetailComp || this.$createHeaderDetail({
+        $props: {
+          seller: 'seller'
+        }
+      })
+      this.headerDetailComp.showDetail()
+    }
   },
   components: {
     SupportIco
