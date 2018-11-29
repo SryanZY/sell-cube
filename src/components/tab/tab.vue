@@ -4,7 +4,7 @@
     <div class="slide-wrapper">
       <cube-slide :loop="false" :auto-play="false" :show-dots="false" :options="slideOptions" :initial-index="index" ref="slide" @change="onChange" @scroll="onScroll">
         <cube-slide-item v-for="(tab, index) in tabs" :key="index">
-          <component :is="tab.component" :data="tab.data"></component>
+          <component :is="tab.component" :data="tab.data" ref="component"></component>
         </cube-slide-item>
       </cube-slide>
     </div>
@@ -48,9 +48,18 @@ export default {
       }
     }
   },
+  mounted () {
+    // 解决首次渲染时没有数据的问题
+    this.onChange(this.index)
+  },
   methods: {
     onChange (current) {
       this.index = current
+      // 根据切换的tab页来调用组件上的方法从而获取相应的数据
+      const component = this.$refs.component[current]
+      if (component && component.fetch) {
+        component.fetch()
+      }
     },
     // 滚动事件
     onScroll (pos) {
@@ -60,8 +69,6 @@ export default {
 
       this.$refs.tabBar.setSliderTransform(transform)
     }
-  },
-  components: {
   }
 
 }

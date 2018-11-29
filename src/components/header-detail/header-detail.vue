@@ -1,6 +1,6 @@
 <template>
   <transition name="fade">
-    <div v-show="visiable" class="header-detail" @touchmove.stop.prevent>
+    <div v-show="visible" class="header-detail" @touchmove.stop.prevent>
       <div class="detail-wrapper clear-fix">
         <div class="detail-main">
           <h1 class="name">{{ seller.name }}</h1>
@@ -28,7 +28,7 @@
           </div>
         </div>
       </div>
-      <div class="detail-close" @click="closeDetail">
+      <div class="detail-close" @click="hide">
         <i class="icon-close"></i>
       </div>
     </div>
@@ -38,28 +38,17 @@
 <script>
 import SupportIco from 'components/support-ico/support-ico'
 import Star from 'components/star/star'
+import popupMixin from 'common/mixins/popup'
 
 export default {
   name: 'header-detail',
+  mixins: [popupMixin],
   props: {
     seller: {
       type: Object,
       default () {
         return {}
       }
-    }
-  },
-  data () {
-    return {
-      visiable: false
-    }
-  },
-  methods: {
-    showDetail () {
-      this.visiable = true
-    },
-    closeDetail () {
-      this.visiable = false
     }
   },
   components: {

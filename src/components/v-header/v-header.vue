@@ -56,7 +56,7 @@ export default {
           seller: 'seller'
         }
       })
-      this.headerDetailComp.showDetail()
+      this.headerDetailComp.show()
     }
   },
   components: {
