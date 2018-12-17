@@ -1,4 +1,5 @@
 const path = require('path')
+const webpack = require('webpack')
 const appData = require('./data.json')
 const seller = appData.seller
 const goods = appData.goods
@@ -9,6 +10,7 @@ function resolve (dir) {
 }
 
 module.exports = {
+  baseUrl: '',
   devServer: {
     // 在服务内部的所有其他中间件之前，提供执行自定义中间件的功能。
     // 这可以用来配置自定义处理程序
@@ -66,5 +68,9 @@ module.exports = {
       .set('components', resolve('src/components'))
       .set('common', resolve('src/common'))
       .set('api', resolve('src/api'))
+    // 处理moment的语言包文件，减少打包体积
+    config.plugin('context')
+      .use(webpack.ContextReplacementPlugin,
+        [/moment[/\\]locale$/, /zh-cn/])
   }
 }
