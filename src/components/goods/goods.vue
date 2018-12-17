@@ -22,7 +22,7 @@
         </template>
         <cube-scroll-nav-panel v-for="good in goods" :key="good.name" :label="good.name" :title="good.name">
           <ul>
-            <li v-for="food in good.foods" :key="food.name" class="food-item">
+            <li v-for="food in good.foods" :key="food.name" class="food-item" @click="selectFood(food)">
               <div class="icon">
                 <img width="57" height="57" :src="food.icon" alt="food">
               </div>
@@ -61,6 +61,7 @@ import ShopCart from 'components/shop-cart/shop-cart'
 import CartControl from 'components/cart-control/cart-control'
 import SupportIco from 'components/support-ico/support-ico'
 import Bubble from 'components/bubble/bubble'
+
 export default {
   name: 'goods',
   props: {
@@ -77,7 +78,8 @@ export default {
       scrollOptions: {
         click: false,
         directionLockThreshold: 0
-      }
+      },
+      selectedFood: {}
     }
   },
   computed: {
@@ -131,6 +133,41 @@ export default {
     },
     onAdd (target) {
       this.$refs.shopCart.drop(target)
+    },
+    selectFood (food) {
+      this.selectedFood = food
+      this._showFood()
+      this._showShopCartSticky()
+    },
+    _showFood () {
+      this.foodComp = this.foodComp || this.$createFood({
+        $props: {
+          food: 'selectedFood'
+        },
+        $events: {
+          add: (target) => {
+            this.shopCartStickyComp.drop(target)
+          },
+          leave: () => {
+            this._hideShopCartSticky()
+          }
+        }
+      })
+      this.foodComp.show()
+    },
+    _showShopCartSticky () {
+      this.shopCartStickyComp = this.shopCartStickyComp || this.$createShopCartSticky({
+        $props: {
+          selectFoods: 'selectFoods',
+          deliveryPrice: this.seller.deliveryPrice,
+          minPrice: this.seller.minPrice,
+          fold: true
+        }
+      })
+      this.shopCartStickyComp.show()
+    },
+    _hideShopCartSticky () {
+      this.shopCartStickyComp.hide()
     }
   }
 

@@ -27,7 +27,7 @@ module.exports = {
           data: goods
         })
       })
-      app.get('api/ratings', (req, res) => {
+      app.get('/api/ratings', (req, res) => {
         res.json({
           errno: 0,
           data: ratings
@@ -40,7 +40,6 @@ module.exports = {
       errors: true
     },
     port: 8081,
-    // host: '0.0.0.0',
     open: true
   },
 

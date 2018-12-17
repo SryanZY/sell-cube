@@ -32,15 +32,15 @@ export default {
           }
         },
         {
-          label: '评价',
-          component: Ratings,
+          label: '商家',
+          component: Seller,
           data: {
             seller: this.seller
           }
         },
         {
-          label: '商家',
-          component: Seller,
+          label: '评价',
+          component: Ratings,
           data: {
             seller: this.seller
           }
